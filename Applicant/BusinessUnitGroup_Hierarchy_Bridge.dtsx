@@ -1,0 +1,2946 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/8/2019 5:47:42 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="IP-0A64076F"
+  DTS:CreatorName="IP-0A64076F\aagarwala"
+  DTS:DTSID="{465954E7-5647-411B-A32C-A96202A080FD}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1300.375"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="BusinessUnitGroup_Hierarchy_Bridge"
+  DTS:PackageType="5"
+  DTS:VersionBuild="41"
+  DTS:VersionGUID="{B4D76A0E-806C-42BC-BC95-6C237885305C}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Drop Index"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{2733C110-9CA9-4075-944E-61CCA16458D7}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Drop Index"
+      DTS:ThreadHint="2">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7300FA5D-473D-4651-9845-21C659646E2B}"
+          SQLTask:SqlStatementSource="exec [ETLDW].[DropIndex] 'dbo','fact_BackgroundChecked',0" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{6FEE1A24-B305-4932-B9AC-ADED1F4225B6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7300FA5D-473D-4651-9845-21C659646E2B}"
+          SQLTask:SqlStatementSource="INSERT into ETLDW.BusinessUnitGroup_Hierarchy_Bridge_stg&#xA;SELECT  &#xA;bug1.Id as ParentBusinessUnitGroupId,&#xA;bug1.Id as SubsidiaryBusinessUnitGroup,&#xA;0 as NumLevelsFromParent,&#xA;ETLDW.isBottomId(bug1.Id) as IsBottom,&#xA;'false' as IsTop,&#xA;bug1.BusinessId&#xA;FROM ETLDW.BusinessUnitGroup_stg bug1" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Extract from tp2 and load fact_BackgroundChecked"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{B7B602AF-0215-487E-BBF9-1AF6F7A86076}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Extract from tp2 and load fact_BackgroundChecked"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[fact_BackgroundChecked]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">ROWS_PER_BATCH = 50000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{7300FA5D-473D-4651-9845-21C659646E2B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[localhost.pmwarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SentBy]"
+                      cachedDataType="guid"
+                      cachedName="SentBy"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckSentBy]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SentBy]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DateResponseReceivedUtc]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DateResponseReceivedUtc"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckDateResponseReceivedUtc]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateResponseReceivedUtc]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Package]"
+                      cachedDataType="i2"
+                      cachedName="Package"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckPackage]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[Package]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DateRequestedUtc]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DateRequestedUtc"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckDateRequestedUtc]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateRequestedUtc]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OrganizationUnitId]"
+                      cachedDataType="guid"
+                      cachedName="OrganizationUnitId"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckOrganizationUnitId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[OrganizationUnitId]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UserId]"
+                      cachedDataType="guid"
+                      cachedName="UserId"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckUserId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[UserId]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Id]"
+                      cachedDataType="guid"
+                      cachedName="Id"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckGuid]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[Id]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[RequestAcknowledgementUTC]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="RequestAcknowledgementUTC"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckRequestAcknowledgementUTC]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[RequestAcknowledgementUTC]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SummaryStatus]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="SummaryStatus"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckSummaryStatus]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SummaryStatus]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[PackageId]"
+                      cachedDataType="guid"
+                      cachedName="PackageId"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckPackageId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[PackageId]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AcknowledgesCreditStatement]"
+                      cachedDataType="bool"
+                      cachedName="AcknowledgesCreditStatement"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentAcknowledgesCreditStatement]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[AcknowledgesCreditStatement]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ParentalConsentRequired]"
+                      cachedDataType="bool"
+                      cachedName="ParentalConsentRequired"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentParentalConsentRequired]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ParentalConsentRequired]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ParentalConsentDateUploadedUtc]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="ParentalConsentDateUploadedUtc"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentParentalConsentDateUploadedUtc]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ParentalConsentDateUploadedUtc]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[RequestsCopyOfReport]"
+                      cachedDataType="bool"
+                      cachedName="RequestsCopyOfReport"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentRequestsCopyOfReport]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[RequestsCopyOfReport]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ProviderPackageId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ProviderPackageId"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckProviderPackageId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProviderPackageId]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ProviderId]"
+                      cachedDataType="guid"
+                      cachedName="ProviderId"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckPackageProviderId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProviderId]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FirstName]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="FirstName"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureFirstName]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[FirstName]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LastName]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="LastName"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureLastName]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[LastName]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SigningPIN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="SigningPIN"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureSigningPIN]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SigningPIN]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DateSignedUtc]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DateSignedUtc"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureDateSignedUtc]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateSignedUtc]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SignedById]"
+                      cachedDataType="guid"
+                      cachedName="SignedById"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureSignedById]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SignedById]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UniqueUsername]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="UniqueUsername"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureUniqueUsername]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[UniqueUsername]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[InternalName]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="InternalName"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckPackageInternalName]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[InternalName]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Name]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Name"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckProviderName]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[Name]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ConsentDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="ConsentDate"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentDate]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ConsentDate]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ConsentStatus]"
+                      cachedDataType="i4"
+                      cachedName="ConsentStatus"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentStatusId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ConsentStatus]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[StatusName]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="StatusName"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentStatusName]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[StatusName]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ProviderOrderId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ProviderOrderId"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundProviderOrderId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProviderOrderId]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ID]"
+                      dataType="i8"
+                      name="ID" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckGuid]"
+                      dataType="guid"
+                      name="BackgroundCheckGuid" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckUserId]"
+                      dataType="guid"
+                      name="BackgroundCheckUserId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckOrganizationUnitId]"
+                      dataType="guid"
+                      name="BackgroundCheckOrganizationUnitId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckDateRequestedUtc]"
+                      dataType="dbTimeStamp"
+                      name="BackgroundCheckDateRequestedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckPackage]"
+                      dataType="i2"
+                      name="BackgroundCheckPackage" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckDateResponseReceivedUtc]"
+                      dataType="dbTimeStamp"
+                      name="BackgroundCheckDateResponseReceivedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckSentBy]"
+                      dataType="guid"
+                      name="BackgroundCheckSentBy" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckRequestAcknowledgementUTC]"
+                      dataType="dbTimeStamp"
+                      name="BackgroundCheckRequestAcknowledgementUTC" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckSummaryStatus]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="BackgroundCheckSummaryStatus" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckPackageId]"
+                      dataType="guid"
+                      name="BackgroundCheckPackageId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentAcknowledgesCreditStatement]"
+                      dataType="bool"
+                      name="BackgroundCheckConsentAcknowledgesCreditStatement" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentParentalConsentRequired]"
+                      dataType="bool"
+                      name="BackgroundCheckConsentParentalConsentRequired" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentParentalConsentDateUploadedUtc]"
+                      dataType="dbTimeStamp"
+                      name="BackgroundCheckConsentParentalConsentDateUploadedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentRequestsCopyOfReport]"
+                      dataType="bool"
+                      name="BackgroundCheckConsentRequestsCopyOfReport" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckPackageInternalName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="BackgroundCheckPackageInternalName" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckProviderPackageId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="BackgroundCheckProviderPackageId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckProviderName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="BackgroundCheckProviderName" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckPackageProviderId]"
+                      dataType="guid"
+                      name="BackgroundCheckPackageProviderId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureFirstName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="ElectronicSignatureFirstName" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureLastName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="ElectronicSignatureLastName" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureSigningPIN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="ElectronicSignatureSigningPIN" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureDateSignedUtc]"
+                      dataType="dbTimeStamp"
+                      name="ElectronicSignatureDateSignedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureSignedById]"
+                      dataType="guid"
+                      name="ElectronicSignatureSignedById" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureUniqueUsername]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="ElectronicSignatureUniqueUsername" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentDate]"
+                      dataType="dbDate"
+                      name="BackgroundCheckConsentDate" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentStatusId]"
+                      dataType="i4"
+                      name="BackgroundCheckConsentStatusId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentStatusName]"
+                      dataType="wstr"
+                      length="100"
+                      name="BackgroundCheckConsentStatusName" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundProviderOrderId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="BackgroundProviderOrderId" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">exec [ETLDW].[fact_BackgroundChecked_ETL]</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="{55F646B8-CA15-4B9C-99B9-B7417A71F763}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[localhost.Employer]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[Id]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Id]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[Id]"
+                      name="Id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[UserId]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UserId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[UserId]"
+                      name="UserId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[OrganizationUnitId]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OrganizationUnitId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[OrganizationUnitId]"
+                      name="OrganizationUnitId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateRequestedUtc]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DateRequestedUtc]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateRequestedUtc]"
+                      name="DateRequestedUtc"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[Package]"
+                      dataType="i2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Package]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[Package]"
+                      name="Package"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateResponseReceivedUtc]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DateResponseReceivedUtc]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateResponseReceivedUtc]"
+                      name="DateResponseReceivedUtc"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SentBy]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SentBy]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SentBy]"
+                      name="SentBy"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[RequestAcknowledgementUTC]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[RequestAcknowledgementUTC]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[RequestAcknowledgementUTC]"
+                      name="RequestAcknowledgementUTC"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SummaryStatus]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SummaryStatus]"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SummaryStatus]"
+                      name="SummaryStatus"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[PackageId]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PackageId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[PackageId]"
+                      name="PackageId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProviderOrderId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ProviderOrderId]"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProviderOrderId]"
+                      name="ProviderOrderId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[BackgroundCheckConsentId]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BackgroundCheckConsentId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[BackgroundCheckConsentId]"
+                      name="BackgroundCheckConsentId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[AcknowledgesCreditStatement]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AcknowledgesCreditStatement]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[AcknowledgesCreditStatement]"
+                      name="AcknowledgesCreditStatement"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ParentalConsentRequired]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ParentalConsentRequired]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ParentalConsentRequired]"
+                      name="ParentalConsentRequired"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ParentalConsentDateUploadedUtc]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ParentalConsentDateUploadedUtc]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ParentalConsentDateUploadedUtc]"
+                      name="ParentalConsentDateUploadedUtc"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[RequestsCopyOfReport]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[RequestsCopyOfReport]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[RequestsCopyOfReport]"
+                      name="RequestsCopyOfReport"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ElectronicSignatureId]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ElectronicSignatureId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ElectronicSignatureId]"
+                      name="ElectronicSignatureId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[InternalName]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[InternalName]"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[InternalName]"
+                      name="InternalName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProviderPackageId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ProviderPackageId]"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProviderPackageId]"
+                      name="ProviderPackageId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProviderId]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ProviderId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProviderId]"
+                      name="ProviderId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ConsentDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ConsentDate]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ConsentDate]"
+                      name="ConsentDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ConsentStatus]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ConsentStatus]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ConsentStatus]"
+                      name="ConsentStatus"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ESignatureId]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ESignatureId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ESignatureId]"
+                      name="ESignatureId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[FirstName]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FirstName]"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[FirstName]"
+                      name="FirstName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[LastName]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LastName]"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[LastName]"
+                      name="LastName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SigningPIN]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SigningPIN]"
+                      length="4"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SigningPIN]"
+                      name="SigningPIN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateSignedUtc]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DateSignedUtc]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateSignedUtc]"
+                      name="DateSignedUtc"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SignedById]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SignedById]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SignedById]"
+                      name="SignedById"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[UniqueUsername]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UniqueUsername]"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[UniqueUsername]"
+                      name="UniqueUsername"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[Name]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[Name]"
+                      name="Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[StatusName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[StatusName]"
+                      length="100"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[StatusName]"
+                      name="StatusName"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Id]"
+                      dataType="guid"
+                      name="Id" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UserId]"
+                      dataType="guid"
+                      name="UserId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OrganizationUnitId]"
+                      dataType="guid"
+                      name="OrganizationUnitId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DateRequestedUtc]"
+                      dataType="dbTimeStamp"
+                      name="DateRequestedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Package]"
+                      dataType="i2"
+                      name="Package" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DateResponseReceivedUtc]"
+                      dataType="dbTimeStamp"
+                      name="DateResponseReceivedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SentBy]"
+                      dataType="guid"
+                      name="SentBy" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[RequestAcknowledgementUTC]"
+                      dataType="dbTimeStamp"
+                      name="RequestAcknowledgementUTC" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SummaryStatus]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="SummaryStatus" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PackageId]"
+                      dataType="guid"
+                      name="PackageId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ProviderOrderId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="ProviderOrderId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BackgroundCheckConsentId]"
+                      dataType="guid"
+                      name="BackgroundCheckConsentId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AcknowledgesCreditStatement]"
+                      dataType="bool"
+                      name="AcknowledgesCreditStatement" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ParentalConsentRequired]"
+                      dataType="bool"
+                      name="ParentalConsentRequired" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ParentalConsentDateUploadedUtc]"
+                      dataType="dbTimeStamp"
+                      name="ParentalConsentDateUploadedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[RequestsCopyOfReport]"
+                      dataType="bool"
+                      name="RequestsCopyOfReport" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ElectronicSignatureId]"
+                      dataType="guid"
+                      name="ElectronicSignatureId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[InternalName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="InternalName" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ProviderPackageId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="ProviderPackageId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ProviderId]"
+                      dataType="guid"
+                      name="ProviderId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ConsentDate]"
+                      dataType="dbTimeStamp"
+                      name="ConsentDate" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ConsentStatus]"
+                      dataType="i4"
+                      name="ConsentStatus" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ESignatureId]"
+                      dataType="guid"
+                      name="ESignatureId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FirstName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="FirstName" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LastName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="LastName" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SigningPIN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="SigningPIN" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DateSignedUtc]"
+                      dataType="dbTimeStamp"
+                      name="DateSignedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SignedById]"
+                      dataType="guid"
+                      name="SignedById" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UniqueUsername]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="UniqueUsername" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[StatusName]"
+                      dataType="wstr"
+                      length="100"
+                      name="StatusName" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Id]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Id]"
+                      name="Id" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UserId]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UserId]"
+                      name="UserId" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OrganizationUnitId]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OrganizationUnitId]"
+                      name="OrganizationUnitId" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DateRequestedUtc]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DateRequestedUtc]"
+                      name="DateRequestedUtc" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Package]"
+                      dataType="i2"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Package]"
+                      name="Package" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DateResponseReceivedUtc]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DateResponseReceivedUtc]"
+                      name="DateResponseReceivedUtc" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SentBy]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SentBy]"
+                      name="SentBy" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[RequestAcknowledgementUTC]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[RequestAcknowledgementUTC]"
+                      name="RequestAcknowledgementUTC" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SummaryStatus]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SummaryStatus]"
+                      name="SummaryStatus" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PackageId]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PackageId]"
+                      name="PackageId" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ProviderOrderId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ProviderOrderId]"
+                      name="ProviderOrderId" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BackgroundCheckConsentId]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BackgroundCheckConsentId]"
+                      name="BackgroundCheckConsentId" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AcknowledgesCreditStatement]"
+                      dataType="bool"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AcknowledgesCreditStatement]"
+                      name="AcknowledgesCreditStatement" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ParentalConsentRequired]"
+                      dataType="bool"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ParentalConsentRequired]"
+                      name="ParentalConsentRequired" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ParentalConsentDateUploadedUtc]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ParentalConsentDateUploadedUtc]"
+                      name="ParentalConsentDateUploadedUtc" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[RequestsCopyOfReport]"
+                      dataType="bool"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[RequestsCopyOfReport]"
+                      name="RequestsCopyOfReport" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ElectronicSignatureId]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ElectronicSignatureId]"
+                      name="ElectronicSignatureId" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[InternalName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[InternalName]"
+                      name="InternalName" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ProviderPackageId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ProviderPackageId]"
+                      name="ProviderPackageId" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ProviderId]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ProviderId]"
+                      name="ProviderId" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ConsentDate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ConsentDate]"
+                      name="ConsentDate" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ConsentStatus]"
+                      dataType="i4"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ConsentStatus]"
+                      name="ConsentStatus" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ESignatureId]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ESignatureId]"
+                      name="ESignatureId" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FirstName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FirstName]"
+                      name="FirstName" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LastName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LastName]"
+                      name="LastName" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SigningPIN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SigningPIN]"
+                      name="SigningPIN" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DateSignedUtc]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DateSignedUtc]"
+                      name="DateSignedUtc" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SignedById]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SignedById]"
+                      name="SignedById" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UniqueUsername]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UniqueUsername]"
+                      name="UniqueUsername" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      name="Name" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[StatusName]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[StatusName]"
+                      name="StatusName" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Extract from tp2 and load fact_BackgroundChecked.Paths[OLE DB Source Output]"
+              endId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load BusinessUnitGroup Hierarchy Bridge stg"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{246125A0-BE20-4ABC-B3D7-839E5D44A0DB}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load BusinessUnitGroup Hierarchy Bridge stg"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7300FA5D-473D-4651-9845-21C659646E2B}"
+          SQLTask:SqlStatementSource="INSERT INTO ETLDW.BusinessUnitGroup_Hierarchy_Bridge_stg&#xA;SELECT &#xA;CASE&#xA;&#x9;WHEN bug1.ParentBusinessUnitGroupId is null&#xA;&#x9;THEN bug1.Id&#xA;&#x9;ELSE bug1.ParentBusinessUnitGroupId&#xA;END as ParentBusinessUnitGroupId,&#xA;bug1.Id as SubsidiaryBusinessUnitGroup,&#xA;CASE &#xA;   WHEN bug1.ParentBusinessUnitGroupId is null &#xA;   THEN 0&#xA;   ELSE 1&#xA;END as NumLevelsFromParent,&#xA;ETLDW.isBottomId(bug1.Id) as IsBottom,&#xA;CASE &#xA;&#x9;WHEN bug1.ParentBusinessUnitGroupId is null&#xA;&#x9;THEN 1&#xA;&#x9;ELSE 0&#xA;END as IsTop,&#xA;bug1.BusinessId&#xA;FROM ETLDW.BusinessUnitGroup_stg bug1" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load BusinessUnitGroup Hierarchy Bridge stg 1"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{6f961489-4747-4edd-b7e9-7e7f0d346082}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load BusinessUnitGroup Hierarchy Bridge stg 1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7300FA5D-473D-4651-9845-21C659646E2B}"
+          SQLTask:SqlStatementSource="INSERT into ETLDW.BusinessUnitGroup_Hierarchy_Bridge_stg&#xA;SELECT stg2.ParentBusinessUnitGroupId as ParentBusinessUnitGroupId,&#xA;stg1.Id as SubsidiaryBusinessUnitGroupId, &#xA;stg2.NumLevelsFromParent+1 as NumLevelsFromParent,&#xA;ETLDW.isBottomId(stg1.Id) as IsBottom,&#xA;'false' as IsTop,&#xA;stg1.BusinessId as BusinessId&#xA;FROM ( &#xA;SELECT Id, Name, ParentBusinessUnitGroupId, BusinessId, DateCreatedUtc, DateChangedUtc, Code, IsDeleted&#xA;   FROM ETLDW.BusinessUnitGroup_stg WHERE ParentBusinessUnitGroupId is not null &#xA;  UNION ALL&#xA;SELECT Id, Name, ParentBusinessUnitGroupId, BusinessId, DateCreatedUtc, DateChangedUtc, Code, IsDeleted&#xA;   FROM ETLDW.BusinessUnitGroup_stg WHERE ParentBusinessUnitGroupId is not null &#xA;) stg1&#xA;LEFT OUTER JOIN (&#xA;SELECT ParentBusinessUnitGroupId, SubsidiaryBusinessUnitGroupId, NumLevelsFromParent, IsBottom, IsTop, BusinessId&#xA;  FROM ETLDW.BusinessUnitGroup_Hierarchy_Bridge_stg WHERE ParentBusinessUnitGroupId is not null &#xA;) stg2 &#xA;ON stg1.ParentBusinessUnitGroupId = stg2.SubsidiaryBusinessUnitGroupId" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load BusinessUnitGroup_stg"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{78B34280-7753-40E9-AF9F-F0A4AACC0F57}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load BusinessUnitGroup_stg"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[ETLDW].[BusinessUnitGroup_stg]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">ROWS_PER_BATCH = 50000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{7300FA5D-473D-4651-9845-21C659646E2B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[localhost.pmwarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Id]"
+                      cachedDataType="guid"
+                      cachedName="Id"
+                      externalMetadataColumnId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[Id]" />
+                    <inputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Name"
+                      externalMetadataColumnId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[Name]" />
+                    <inputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ParentBusinessUnitGroupId]"
+                      cachedDataType="guid"
+                      cachedName="ParentBusinessUnitGroupId"
+                      externalMetadataColumnId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ParentBusinessUnitGroupId]"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[ParentBusinessUnitGroupId]" />
+                    <inputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[BusinessId]"
+                      cachedDataType="guid"
+                      cachedName="BusinessId"
+                      externalMetadataColumnId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BusinessId]"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[BusinessId]" />
+                    <inputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DateCreatedUtc]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DateCreatedUtc"
+                      externalMetadataColumnId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DateCreatedUtc]"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateCreatedUtc]" />
+                    <inputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DateChangedUtc]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DateChangedUtc"
+                      externalMetadataColumnId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DateChangedUtc]"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateChangedUtc]" />
+                    <inputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Code]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Code"
+                      externalMetadataColumnId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Code]"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[Code]" />
+                    <inputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[IsDeleted]"
+                      cachedDataType="bool"
+                      cachedName="IsDeleted"
+                      externalMetadataColumnId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[IsDeleted]"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[IsDeleted]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id]"
+                      dataType="guid"
+                      name="Id" />
+                    <externalMetadataColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ParentBusinessUnitGroupId]"
+                      dataType="guid"
+                      name="ParentBusinessUnitGroupId" />
+                    <externalMetadataColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BusinessId]"
+                      dataType="guid"
+                      name="BusinessId" />
+                    <externalMetadataColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DateCreatedUtc]"
+                      dataType="dbTimeStamp"
+                      name="DateCreatedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DateChangedUtc]"
+                      dataType="dbTimeStamp"
+                      name="DateChangedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Code]"
+                      dataType="wstr"
+                      length="100"
+                      name="Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[IsDeleted]"
+                      dataType="bool"
+                      name="IsDeleted" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load BusinessUnitGroup_stg\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT Id,
+              Name,
+              ParentBusinessUnitGroupId,
+              BusinessId,
+              DateCreatedUtc,
+              DateChangedUtc,
+              Code,
+              IsDeleted
+FROM        dbo.BusinessUnitGroup 
+WHERE IsDeleted = 0
+ORDER BY ParentBusinessUnitGroupId</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="{55F646B8-CA15-4B9C-99B9-B7417A71F763}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[localhost.Employer]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[Id]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Id]"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[Id]"
+                      name="Id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      length="255"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[Name]"
+                      name="Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[ParentBusinessUnitGroupId]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ParentBusinessUnitGroupId]"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[ParentBusinessUnitGroupId]"
+                      name="ParentBusinessUnitGroupId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[BusinessId]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BusinessId]"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[BusinessId]"
+                      name="BusinessId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateCreatedUtc]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DateCreatedUtc]"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateCreatedUtc]"
+                      name="DateCreatedUtc"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateChangedUtc]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DateChangedUtc]"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateChangedUtc]"
+                      name="DateChangedUtc"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[Code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Code]"
+                      length="100"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[Code]"
+                      name="Code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[IsDeleted]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IsDeleted]"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].Columns[IsDeleted]"
+                      name="IsDeleted"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Id]"
+                      dataType="guid"
+                      name="Id" />
+                    <externalMetadataColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="255"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ParentBusinessUnitGroupId]"
+                      dataType="guid"
+                      name="ParentBusinessUnitGroupId" />
+                    <externalMetadataColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BusinessId]"
+                      dataType="guid"
+                      name="BusinessId" />
+                    <externalMetadataColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DateCreatedUtc]"
+                      dataType="dbTimeStamp"
+                      name="DateCreatedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DateChangedUtc]"
+                      dataType="dbTimeStamp"
+                      name="DateChangedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Code]"
+                      dataType="wstr"
+                      length="100"
+                      name="Code" />
+                    <externalMetadataColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IsDeleted]"
+                      dataType="bool"
+                      name="IsDeleted" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Id]"
+                      dataType="guid"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Id]"
+                      name="Id" />
+                    <outputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      name="Name" />
+                    <outputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ParentBusinessUnitGroupId]"
+                      dataType="guid"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ParentBusinessUnitGroupId]"
+                      name="ParentBusinessUnitGroupId" />
+                    <outputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BusinessId]"
+                      dataType="guid"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BusinessId]"
+                      name="BusinessId" />
+                    <outputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DateCreatedUtc]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DateCreatedUtc]"
+                      name="DateCreatedUtc" />
+                    <outputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DateChangedUtc]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DateChangedUtc]"
+                      name="DateChangedUtc" />
+                    <outputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Code]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Code]"
+                      name="Code" />
+                    <outputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IsDeleted]"
+                      dataType="bool"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IsDeleted]"
+                      name="IsDeleted" />
+                    <outputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load BusinessUnitGroup_stg.Paths[OLE DB Source Output]"
+              endId="Package\Load BusinessUnitGroup_stg\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load BusinessUnitGroup_stg\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load dim BusinessUnitGroup"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{4C39AB6F-CC4A-4424-B866-D867EC25EE07}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load dim BusinessUnitGroup"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7300FA5D-473D-4651-9845-21C659646E2B}"
+          SQLTask:SqlStatementSource="INSERT INTO dbo.dim_BusinessUnitGroup&#xA;SELECT Id, BusinessId, DateCreatedUtc, Name, Code&#xA;FROM ETLDW.BusinessUnitGroup_stg" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load dim_BusinessUnitGroup"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{614D9337-78E5-4C9D-89E0-B84EE39FD172}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load dim_BusinessUnitGroup"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load dim_BusinessUnitGroup\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[dim_BusinessUnitGroup]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">ROWS_PER_BATCH = 50000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{7300FA5D-473D-4651-9845-21C659646E2B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[localhost.pmwarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[BusinessId]"
+                      cachedDataType="guid"
+                      cachedName="BusinessId"
+                      externalMetadataColumnId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BusinessId]"
+                      lineageId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].Columns[BusinessId]" />
+                    <inputColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DateCreatedUtc]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DateCreatedUtc"
+                      externalMetadataColumnId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DateCreatedUtc]"
+                      lineageId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateCreatedUtc]" />
+                    <inputColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Id]"
+                      cachedDataType="guid"
+                      cachedName="Id"
+                      externalMetadataColumnId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Guid]"
+                      lineageId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].Columns[Id]" />
+                    <inputColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Name1]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Name1"
+                      externalMetadataColumnId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].Columns[Name1]" />
+                    <inputColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Code1]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Code1"
+                      externalMetadataColumnId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Code]"
+                      lineageId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].Columns[Code1]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ID]"
+                      dataType="i8"
+                      name="ID" />
+                    <externalMetadataColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BusinessId]"
+                      dataType="guid"
+                      name="BusinessId" />
+                    <externalMetadataColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Guid]"
+                      dataType="guid"
+                      name="Guid" />
+                    <externalMetadataColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[DateCreatedUtc]"
+                      dataType="dbTimeStamp"
+                      name="DateCreatedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Code]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="Code" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load dim_BusinessUnitGroup\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT 
+  Id
+ ,BusinessId
+ ,DateCreatedUtc
+ ,CAST(Name as VARCHAR) as Name1
+ ,CAST(Code as VARCHAR) as Code1
+FROM ETLDW.BusinessUnitGroup_stg</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="{7300FA5D-473D-4651-9845-21C659646E2B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[localhost.pmwarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].Columns[Id]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Id]"
+                      lineageId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].Columns[Id]"
+                      name="Id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].Columns[BusinessId]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BusinessId]"
+                      lineageId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].Columns[BusinessId]"
+                      name="BusinessId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateCreatedUtc]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DateCreatedUtc]"
+                      lineageId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateCreatedUtc]"
+                      name="DateCreatedUtc"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].Columns[Name1]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Name1]"
+                      length="30"
+                      lineageId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].Columns[Name1]"
+                      name="Name1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].Columns[Code1]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Code1]"
+                      length="30"
+                      lineageId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].Columns[Code1]"
+                      name="Code1"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Id]"
+                      dataType="guid"
+                      name="Id" />
+                    <externalMetadataColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BusinessId]"
+                      dataType="guid"
+                      name="BusinessId" />
+                    <externalMetadataColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DateCreatedUtc]"
+                      dataType="dbTimeStamp"
+                      name="DateCreatedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Name1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Name1" />
+                    <externalMetadataColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Code1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Code1" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Id]"
+                      dataType="guid"
+                      lineageId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Id]"
+                      name="Id" />
+                    <outputColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BusinessId]"
+                      dataType="guid"
+                      lineageId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BusinessId]"
+                      name="BusinessId" />
+                    <outputColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DateCreatedUtc]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DateCreatedUtc]"
+                      name="DateCreatedUtc" />
+                    <outputColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Name1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Name1]"
+                      name="Name1" />
+                    <outputColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Code1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Code1]"
+                      name="Code1" />
+                    <outputColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load dim_BusinessUnitGroup.Paths[OLE DB Source Output]"
+              endId="Package\Load dim_BusinessUnitGroup\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load dim_BusinessUnitGroup\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Re-Create Index"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{71FAAD83-2E36-455B-98A1-D151A3C17EC9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Re-Create Index"
+      DTS:ThreadHint="3">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7300FA5D-473D-4651-9845-21C659646E2B}"
+          SQLTask:SqlStatementSource="exec [ETLDW].[CreateIndex] 'dbo', 'fact_BackgroundChecked',0" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Sequence Container"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{5B74D966-1E06-46AD-80FC-65CD13E49F65}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Sequence Container">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Execute SQL Task"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{76e9130b-1dec-46f4-943c-5e52a68698a5}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Execute SQL Task"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{7300FA5D-473D-4651-9845-21C659646E2B}"
+              SQLTask:SqlStatementSource="INSERT into ETLDW.BusinessUnitGroup_Hierarchy_Bridge_stg&#xA;SELECT  &#xA;bug1.Id as ParentBusinessUnitGroupId,&#xA;bug1.Id as SubsidiaryBusinessUnitGroup,&#xA;0 as NumLevelsFromParent,&#xA;ETLDW.isBottomId(bug1.Id) as IsBottom,&#xA;'false' as IsTop,&#xA;bug1.BusinessId&#xA;FROM ETLDW.BusinessUnitGroup_stg bug1" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Load BusinessUnitGroup Hierarchy Bridge stg"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{07c3c345-2a9d-48e2-9336-0137147676bd}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load BusinessUnitGroup Hierarchy Bridge stg"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{7300FA5D-473D-4651-9845-21C659646E2B}"
+              SQLTask:SqlStatementSource="INSERT INTO ETLDW.BusinessUnitGroup_Hierarchy_Bridge_stg&#xA;SELECT &#xA;CASE&#xA; WHEN bug1.ParentBusinessUnitGroupId is null&#xA; THEN bug1.Id&#xA; ELSE bug1.ParentBusinessUnitGroupId&#xA;END as ParentBusinessUnitGroupId,&#xA;bug1.Id as SubsidiaryBusinessUnitGroup,&#xA;CASE &#xA;   WHEN bug1.ParentBusinessUnitGroupId is null &#xA;   THEN 0&#xA;   ELSE 1&#xA;END as NumLevelsFromParent,&#xA;ETLDW.isBottomId(bug1.Id) as IsBottom,&#xA;CASE &#xA; WHEN bug1.ParentBusinessUnitGroupId is null&#xA; THEN 1&#xA; ELSE 0&#xA;END as IsTop,&#xA;bug1.BusinessId&#xA;FROM ETLDW.BusinessUnitGroup_stg bug1" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Load BusinessUnitGroup Hierarchy Bridge stg 1"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{561e0761-def4-4790-a365-4b134f282f30}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load BusinessUnitGroup Hierarchy Bridge stg 1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{7300FA5D-473D-4651-9845-21C659646E2B}"
+              SQLTask:SqlStatementSource="INSERT into ETLDW.BusinessUnitGroup_Hierarchy_Bridge_stg&#xA;SELECT stg2.ParentBusinessUnitGroupId as ParentBusinessUnitGroupId,&#xA;stg1.Id as SubsidiaryBusinessUnitGroupId, &#xA;stg2.NumLevelsFromParent+1 as NumLevelsFromParent,&#xA;ETLDW.isBottomId(stg1.Id) as IsBottom,&#xA;'false' as IsTop,&#xA;stg1.BusinessId as BusinessId&#xA;FROM ( &#xA;SELECT Id, Name, ParentBusinessUnitGroupId, BusinessId, DateCreatedUtc, DateChangedUtc, Code, IsDeleted&#xA;   FROM ETLDW.BusinessUnitGroup_stg WHERE ParentBusinessUnitGroupId is not null &#xA;  UNION ALL&#xA;SELECT Id, Name, ParentBusinessUnitGroupId, BusinessId, DateCreatedUtc, DateChangedUtc, Code, IsDeleted&#xA;   FROM ETLDW.BusinessUnitGroup_stg WHERE ParentBusinessUnitGroupId is not null &#xA;) stg1&#xA;LEFT OUTER JOIN (&#xA;SELECT ParentBusinessUnitGroupId, SubsidiaryBusinessUnitGroupId, NumLevelsFromParent, IsBottom, IsTop, BusinessId&#xA;  FROM ETLDW.BusinessUnitGroup_Hierarchy_Bridge_stg WHERE ParentBusinessUnitGroupId is not null &#xA;) stg2 &#xA;ON stg1.ParentBusinessUnitGroupId = stg2.SubsidiaryBusinessUnitGroupId" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{6BFFE2E4-FF76-4768-97EF-DEA79D1C496A}"
+          DTS:From="Package\Sequence Container\Load BusinessUnitGroup Hierarchy Bridge stg"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Sequence Container\Load BusinessUnitGroup Hierarchy Bridge stg 1" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint 8]"
+          DTS:CreationName=""
+          DTS:DTSID="{63af003e-0611-4691-8987-39c76b1499b8}"
+          DTS:From="Package\Sequence Container\Load BusinessUnitGroup Hierarchy Bridge stg 1"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 8"
+          DTS:To="Package\Sequence Container\Execute SQL Task" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate BusinessUnitGroup_Hierarchy_Bridge_stg"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{a6c818db-33fb-4fad-86fa-577f7f701841}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate BusinessUnitGroup_Hierarchy_Bridge_stg"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7300FA5D-473D-4651-9845-21C659646E2B}"
+          SQLTask:SqlStatementSource="truncate table ETLDW.BusinessUnitGroup_Hierarchy_Bridge_stg" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate BusinessUnitGroup_stg"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{c00d38de-c8b0-4c05-8145-0e58e64e639a}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate BusinessUnitGroup_stg"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7300FA5D-473D-4651-9845-21C659646E2B}"
+          SQLTask:SqlStatementSource="truncate table ETLDW.BusinessUnitGroup_stg" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate dim_BusinessUnitGroup"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{A48CD921-8FF8-4083-BE8C-F714B40746DE}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate dim_BusinessUnitGroup"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7300FA5D-473D-4651-9845-21C659646E2B}"
+          SQLTask:SqlStatementSource="truncate table dim_BusinessUnitGroup" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update DW_LoadRunTime Table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{30B03D9B-8C57-40B2-A09B-FE4DBB716631}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update DW_LoadRunTime Table"
+      DTS:ThreadHint="3">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7300FA5D-473D-4651-9845-21C659646E2B}"
+          SQLTask:SqlStatementSource="exec dbo.DW_SuccessLoadTime 'fact_ApplicantSource', 'fact_ApplicantSource'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{45BE4C81-FE23-4C80-95EE-9CD5191AE12E}"
+      DTS:From="Package\Truncate dim_BusinessUnitGroup"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load dim BusinessUnitGroup" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{8513DA29-1C9E-485E-A438-96B17290C52C}"
+      DTS:From="Package\Extract from tp2 and load fact_BackgroundChecked"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Re-Create Index" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{8AC4B190-7D2B-4CB2-B7AB-4F62B5E2289B}"
+      DTS:From="Package\Re-Create Index"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Update DW_LoadRunTime Table" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{9F2C41D1-4E61-4717-B806-5F5B97CAAC2F}"
+      DTS:From="Package\Load BusinessUnitGroup_stg"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Truncate dim_BusinessUnitGroup" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{262196AF-7D50-41F3-A6BB-AD2E2B31CA6F}"
+      DTS:From="Package\Truncate BusinessUnitGroup_stg"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Load BusinessUnitGroup_stg" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{6FAE24BA-63E1-4C15-9525-11CAFCB1E8A8}"
+      DTS:From="Package\Truncate BusinessUnitGroup_Hierarchy_Bridge_stg"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Sequence Container" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{4AF3015F-E117-427E-9653-C94B262D4608}"
+      DTS:From="Package\Load BusinessUnitGroup Hierarchy Bridge stg"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\Load BusinessUnitGroup Hierarchy Bridge stg 1" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{6F14E4A5-0D68-4F8D-AD83-79FB580BE394}"
+      DTS:From="Package\Load dim BusinessUnitGroup"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 7"
+      DTS:To="Package\Truncate BusinessUnitGroup_Hierarchy_Bridge_stg" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 8]"
+      DTS:CreationName=""
+      DTS:DTSID="{D2B5F8C3-C308-4311-9AC0-DFBDF71F3147}"
+      DTS:From="Package\Load BusinessUnitGroup Hierarchy Bridge stg 1"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 8"
+      DTS:To="Package\Execute SQL Task" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="133,42"
+          Id="Package\Drop Index"
+          TopLeft="77,538" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Execute SQL Task"
+          TopLeft="593,223" />
+        <NodeLayout
+          Size="330,42"
+          Id="Package\Extract from tp2 and load fact_BackgroundChecked"
+          TopLeft="44,468" />
+        <NodeLayout
+          Size="304,42"
+          Id="Package\Load BusinessUnitGroup Hierarchy Bridge stg"
+          TopLeft="530,189" />
+        <NodeLayout
+          Size="304,42"
+          Id="Package\Load BusinessUnitGroup Hierarchy Bridge stg 1"
+          TopLeft="487,252" />
+        <NodeLayout
+          Size="222,42"
+          Id="Package\Load BusinessUnitGroup_stg"
+          TopLeft="320,25" />
+        <NodeLayout
+          Size="222,42"
+          Id="Package\Load dim BusinessUnitGroup"
+          TopLeft="393,104" />
+        <NodeLayout
+          Size="225,42"
+          Id="Package\Load dim_BusinessUnitGroup"
+          TopLeft="693,391" />
+        <NodeLayout
+          Size="160,42"
+          Id="Package\Re-Create Index"
+          TopLeft="481,478" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Sequence Container\Execute SQL Task"
+          TopLeft="452,209" />
+        <NodeLayout
+          Size="304,42"
+          Id="Package\Sequence Container\Load BusinessUnitGroup Hierarchy Bridge stg"
+          TopLeft="378,60" />
+        <NodeLayout
+          Size="304,42"
+          Id="Package\Sequence Container\Load BusinessUnitGroup Hierarchy Bridge stg 1"
+          TopLeft="60,187" />
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint]"
+          TopLeft="530,102">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-318,85"
+              Start="0,0"
+              End="-318,77.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,38.5"
+                    Point2="0,42.5"
+                    Point3="-4,42.5" />
+                  <mssgle:LineSegment
+                    End="-314,42.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-314,42.5"
+                    Point2="-318,42.5"
+                    Point3="-318,46.5" />
+                  <mssgle:LineSegment
+                    End="-318,77.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint 8]"
+          TopLeft="364,208">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="88,22"
+              Start="0,0"
+              End="80.5,22">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="40,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="40,0"
+                    Point2="44,0"
+                    Point3="44,4" />
+                  <mssgle:LineSegment
+                    End="44,18" />
+                  <mssgle:CubicBezierSegment
+                    Point1="44,18"
+                    Point2="44,22"
+                    Point3="48,22" />
+                  <mssgle:LineSegment
+                    End="80.5,22" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="687,306"
+          Size="687,349"
+          Id="Package\Sequence Container"
+          TopLeft="31,321" />
+        <NodeLayout
+          Size="332,42"
+          Id="Package\Truncate BusinessUnitGroup_Hierarchy_Bridge_stg"
+          TopLeft="27,199" />
+        <NodeLayout
+          Size="241,42"
+          Id="Package\Truncate BusinessUnitGroup_stg"
+          TopLeft="48,19" />
+        <NodeLayout
+          Size="244,42"
+          Id="Package\Truncate dim_BusinessUnitGroup"
+          TopLeft="43,102" />
+        <NodeLayout
+          Size="209,42"
+          Id="Package\Update DW_LoadRunTime Table"
+          TopLeft="701,509" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="287,124">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="106,0"
+              Start="0,0"
+              End="98.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="98.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="374,489">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="107,10"
+              Start="0,0"
+              End="99.5,10">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="49.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="49.5,0"
+                    Point2="53.5,0"
+                    Point3="53.5,4" />
+                  <mssgle:LineSegment
+                    End="53.5,6" />
+                  <mssgle:CubicBezierSegment
+                    Point1="53.5,6"
+                    Point2="53.5,10"
+                    Point3="57.5,10" />
+                  <mssgle:LineSegment
+                    End="99.5,10" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="641,499">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="60,31"
+              Start="0,0"
+              End="52.5,31">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="26,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="26,0"
+                    Point2="30,0"
+                    Point3="30,4" />
+                  <mssgle:LineSegment
+                    End="30,27" />
+                  <mssgle:CubicBezierSegment
+                    Point1="30,27"
+                    Point2="30,31"
+                    Point3="34,31" />
+                  <mssgle:LineSegment
+                    End="52.5,31" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="431,67">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-266,35"
+              Start="0,0"
+              End="-266,27.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.5"
+                    Point2="0,17.5"
+                    Point3="-4,17.5" />
+                  <mssgle:LineSegment
+                    End="-262,17.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-262,17.5"
+                    Point2="-266,17.5"
+                    Point3="-266,21.5" />
+                  <mssgle:LineSegment
+                    End="-266,27.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="289,43">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="31,0"
+              Start="0,0"
+              End="23.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="23.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="193,241">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="181.5,80"
+              Start="0,0"
+              End="181.5,72.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,36"
+                    Point2="0,40"
+                    Point3="4,40" />
+                  <mssgle:LineSegment
+                    End="177.5,40" />
+                  <mssgle:CubicBezierSegment
+                    Point1="177.5,40"
+                    Point2="181.5,40"
+                    Point3="181.5,44" />
+                  <mssgle:LineSegment
+                    End="181.5,72.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="530,210">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="158.333333333333,42"
+              Start="0,0"
+              End="158.333333333333,34.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="154.333333333333,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="154.333333333333,0"
+                    Point2="158.333333333333,0"
+                    Point3="158.333333333333,4" />
+                  <mssgle:LineSegment
+                    End="158.333333333333,34.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 7]"
+          TopLeft="504,146">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-311,53"
+              Start="0,0"
+              End="-311,45.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,22.5"
+                    Point2="0,26.5"
+                    Point3="-4,26.5" />
+                  <mssgle:LineSegment
+                    End="-307,26.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-307,26.5"
+                    Point2="-311,26.5"
+                    Point3="-311,30.5" />
+                  <mssgle:LineSegment
+                    End="-311,45.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 8]"
+          TopLeft="589.666666666667,252">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="173.333333333333,-8"
+              Start="0,0"
+              End="165.833333333333,-8">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-4" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-4"
+                    Point2="0,-8"
+                    Point3="4,-8" />
+                  <mssgle:LineSegment
+                    End="165.833333333333,-8" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Extract from tp2 and load fact_BackgroundChecked">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source"
+          TopLeft="100,127" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination"
+          TopLeft="400,121" />
+        <EdgeLayout
+          Id="Package\Extract from tp2 and load fact_BackgroundChecked.Paths[OLE DB Source Output]"
+          TopLeft="257,145">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="143,0"
+              Start="0,0"
+              End="135.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="135.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Load BusinessUnitGroup_stg">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Load BusinessUnitGroup_stg\OLE DB Destination"
+          TopLeft="472,135" />
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Load BusinessUnitGroup_stg\OLE DB Source"
+          TopLeft="153,142" />
+        <EdgeLayout
+          Id="Package\Load BusinessUnitGroup_stg.Paths[OLE DB Source Output]"
+          TopLeft="310,159.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="162,0"
+              Start="0,0"
+              End="154.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="154.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load BusinessUnitGroup_stg\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load BusinessUnitGroup_stg\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Load dim_BusinessUnitGroup">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Load dim_BusinessUnitGroup\OLE DB Source"
+          TopLeft="117,199" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Load dim_BusinessUnitGroup\OLE DB Destination"
+          TopLeft="431,206" />
+        <EdgeLayout
+          Id="Package\Load dim_BusinessUnitGroup.Paths[OLE DB Source Output]"
+          TopLeft="274,223.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="157,0"
+              Start="0,0"
+              End="149.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="149.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load dim_BusinessUnitGroup\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load dim_BusinessUnitGroup\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

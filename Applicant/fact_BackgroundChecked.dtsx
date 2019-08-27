@@ -1,0 +1,1455 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/8/2019 5:47:42 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="IP-0A64076F"
+  DTS:CreatorName="IP-0A64076F\aagarwala"
+  DTS:DTSID="{9687CD31-7364-4F7D-94D1-2F7D70F1E7E3}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1300.375"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="fact_BackgroundChecked"
+  DTS:PackageType="5"
+  DTS:VersionBuild="13"
+  DTS:VersionGUID="{A3F60EF8-AC65-462D-A7A3-CA2B5F080D3C}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Drop Index"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{ADEC1E64-4C53-408A-8787-5BC3ECAE4DFC}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Drop Index"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7300FA5D-473D-4651-9845-21C659646E2B}"
+          SQLTask:SqlStatementSource="exec [ETLDW].[DropIndex] 'dbo','fact_BackgroundChecked',0" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Extract from tp2 and load fact_BackgroundChecked"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{85A0D4D3-CB75-4939-B3F0-361ACE939122}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Extract from tp2 and load fact_BackgroundChecked"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[fact_BackgroundChecked]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">ROWS_PER_BATCH = 50000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{7300FA5D-473D-4651-9845-21C659646E2B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[localhost.pmwarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SentBy]"
+                      cachedDataType="guid"
+                      cachedName="SentBy"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckSentBy]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SentBy]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DateResponseReceivedUtc]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DateResponseReceivedUtc"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckDateResponseReceivedUtc]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateResponseReceivedUtc]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Package]"
+                      cachedDataType="i2"
+                      cachedName="Package"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckPackage]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[Package]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DateRequestedUtc]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DateRequestedUtc"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckDateRequestedUtc]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateRequestedUtc]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OrganizationUnitId]"
+                      cachedDataType="guid"
+                      cachedName="OrganizationUnitId"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckOrganizationUnitId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[OrganizationUnitId]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UserId]"
+                      cachedDataType="guid"
+                      cachedName="UserId"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckUserId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[UserId]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Id]"
+                      cachedDataType="guid"
+                      cachedName="Id"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckGuid]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[Id]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[RequestAcknowledgementUTC]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="RequestAcknowledgementUTC"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckRequestAcknowledgementUTC]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[RequestAcknowledgementUTC]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SummaryStatus]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="SummaryStatus"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckSummaryStatus]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SummaryStatus]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[PackageId]"
+                      cachedDataType="guid"
+                      cachedName="PackageId"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckPackageId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[PackageId]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AcknowledgesCreditStatement]"
+                      cachedDataType="bool"
+                      cachedName="AcknowledgesCreditStatement"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentAcknowledgesCreditStatement]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[AcknowledgesCreditStatement]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ParentalConsentRequired]"
+                      cachedDataType="bool"
+                      cachedName="ParentalConsentRequired"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentParentalConsentRequired]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ParentalConsentRequired]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ParentalConsentDateUploadedUtc]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="ParentalConsentDateUploadedUtc"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentParentalConsentDateUploadedUtc]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ParentalConsentDateUploadedUtc]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[RequestsCopyOfReport]"
+                      cachedDataType="bool"
+                      cachedName="RequestsCopyOfReport"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentRequestsCopyOfReport]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[RequestsCopyOfReport]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ProviderPackageId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ProviderPackageId"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckProviderPackageId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProviderPackageId]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ProviderId]"
+                      cachedDataType="guid"
+                      cachedName="ProviderId"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckPackageProviderId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProviderId]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FirstName]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="FirstName"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureFirstName]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[FirstName]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LastName]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="LastName"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureLastName]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[LastName]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SigningPIN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="SigningPIN"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureSigningPIN]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SigningPIN]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DateSignedUtc]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DateSignedUtc"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureDateSignedUtc]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateSignedUtc]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SignedById]"
+                      cachedDataType="guid"
+                      cachedName="SignedById"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureSignedById]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SignedById]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UniqueUsername]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="UniqueUsername"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureUniqueUsername]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[UniqueUsername]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[InternalName]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="InternalName"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckPackageInternalName]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[InternalName]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Name]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Name"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckProviderName]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[Name]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ConsentDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="ConsentDate"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentDate]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ConsentDate]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ConsentStatus]"
+                      cachedDataType="i4"
+                      cachedName="ConsentStatus"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentStatusId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ConsentStatus]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[StatusName]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="StatusName"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentStatusName]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[StatusName]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ProviderOrderId]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="ProviderOrderId"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundProviderOrderId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProviderOrderId]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ID]"
+                      dataType="i8"
+                      name="ID" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckGuid]"
+                      dataType="guid"
+                      name="BackgroundCheckGuid" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckUserId]"
+                      dataType="guid"
+                      name="BackgroundCheckUserId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckOrganizationUnitId]"
+                      dataType="guid"
+                      name="BackgroundCheckOrganizationUnitId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckDateRequestedUtc]"
+                      dataType="dbTimeStamp"
+                      name="BackgroundCheckDateRequestedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckPackage]"
+                      dataType="i2"
+                      name="BackgroundCheckPackage" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckDateResponseReceivedUtc]"
+                      dataType="dbTimeStamp"
+                      name="BackgroundCheckDateResponseReceivedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckSentBy]"
+                      dataType="guid"
+                      name="BackgroundCheckSentBy" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckRequestAcknowledgementUTC]"
+                      dataType="dbTimeStamp"
+                      name="BackgroundCheckRequestAcknowledgementUTC" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckSummaryStatus]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="BackgroundCheckSummaryStatus" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckPackageId]"
+                      dataType="guid"
+                      name="BackgroundCheckPackageId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentAcknowledgesCreditStatement]"
+                      dataType="bool"
+                      name="BackgroundCheckConsentAcknowledgesCreditStatement" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentParentalConsentRequired]"
+                      dataType="bool"
+                      name="BackgroundCheckConsentParentalConsentRequired" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentParentalConsentDateUploadedUtc]"
+                      dataType="dbTimeStamp"
+                      name="BackgroundCheckConsentParentalConsentDateUploadedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentRequestsCopyOfReport]"
+                      dataType="bool"
+                      name="BackgroundCheckConsentRequestsCopyOfReport" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckPackageInternalName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="BackgroundCheckPackageInternalName" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckProviderPackageId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="BackgroundCheckProviderPackageId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckProviderName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="BackgroundCheckProviderName" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckPackageProviderId]"
+                      dataType="guid"
+                      name="BackgroundCheckPackageProviderId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureFirstName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="ElectronicSignatureFirstName" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureLastName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="ElectronicSignatureLastName" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureSigningPIN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="ElectronicSignatureSigningPIN" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureDateSignedUtc]"
+                      dataType="dbTimeStamp"
+                      name="ElectronicSignatureDateSignedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureSignedById]"
+                      dataType="guid"
+                      name="ElectronicSignatureSignedById" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ElectronicSignatureUniqueUsername]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="ElectronicSignatureUniqueUsername" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentDate]"
+                      dataType="dbDate"
+                      name="BackgroundCheckConsentDate" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentStatusId]"
+                      dataType="i4"
+                      name="BackgroundCheckConsentStatusId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundCheckConsentStatusName]"
+                      dataType="wstr"
+                      length="100"
+                      name="BackgroundCheckConsentStatusName" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BackgroundProviderOrderId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="BackgroundProviderOrderId" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">exec [ETLDW].[fact_BackgroundChecked_ETL]</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="{55F646B8-CA15-4B9C-99B9-B7417A71F763}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[localhost.Employer]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[Id]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Id]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[Id]"
+                      name="Id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[UserId]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UserId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[UserId]"
+                      name="UserId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[OrganizationUnitId]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OrganizationUnitId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[OrganizationUnitId]"
+                      name="OrganizationUnitId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateRequestedUtc]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DateRequestedUtc]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateRequestedUtc]"
+                      name="DateRequestedUtc"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[Package]"
+                      dataType="i2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Package]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[Package]"
+                      name="Package"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateResponseReceivedUtc]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DateResponseReceivedUtc]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateResponseReceivedUtc]"
+                      name="DateResponseReceivedUtc"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SentBy]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SentBy]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SentBy]"
+                      name="SentBy"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[RequestAcknowledgementUTC]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[RequestAcknowledgementUTC]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[RequestAcknowledgementUTC]"
+                      name="RequestAcknowledgementUTC"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SummaryStatus]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SummaryStatus]"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SummaryStatus]"
+                      name="SummaryStatus"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[PackageId]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PackageId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[PackageId]"
+                      name="PackageId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProviderOrderId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ProviderOrderId]"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProviderOrderId]"
+                      name="ProviderOrderId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[BackgroundCheckConsentId]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BackgroundCheckConsentId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[BackgroundCheckConsentId]"
+                      name="BackgroundCheckConsentId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[AcknowledgesCreditStatement]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AcknowledgesCreditStatement]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[AcknowledgesCreditStatement]"
+                      name="AcknowledgesCreditStatement"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ParentalConsentRequired]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ParentalConsentRequired]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ParentalConsentRequired]"
+                      name="ParentalConsentRequired"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ParentalConsentDateUploadedUtc]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ParentalConsentDateUploadedUtc]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ParentalConsentDateUploadedUtc]"
+                      name="ParentalConsentDateUploadedUtc"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[RequestsCopyOfReport]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[RequestsCopyOfReport]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[RequestsCopyOfReport]"
+                      name="RequestsCopyOfReport"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ElectronicSignatureId]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ElectronicSignatureId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ElectronicSignatureId]"
+                      name="ElectronicSignatureId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[InternalName]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[InternalName]"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[InternalName]"
+                      name="InternalName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProviderPackageId]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ProviderPackageId]"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProviderPackageId]"
+                      name="ProviderPackageId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProviderId]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ProviderId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProviderId]"
+                      name="ProviderId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ConsentDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ConsentDate]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ConsentDate]"
+                      name="ConsentDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ConsentStatus]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ConsentStatus]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ConsentStatus]"
+                      name="ConsentStatus"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ESignatureId]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ESignatureId]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[ESignatureId]"
+                      name="ESignatureId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[FirstName]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FirstName]"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[FirstName]"
+                      name="FirstName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[LastName]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LastName]"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[LastName]"
+                      name="LastName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SigningPIN]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SigningPIN]"
+                      length="4"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SigningPIN]"
+                      name="SigningPIN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateSignedUtc]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DateSignedUtc]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[DateSignedUtc]"
+                      name="DateSignedUtc"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SignedById]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SignedById]"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[SignedById]"
+                      name="SignedById"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[UniqueUsername]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UniqueUsername]"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[UniqueUsername]"
+                      name="UniqueUsername"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[Name]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[Name]"
+                      name="Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[StatusName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[StatusName]"
+                      length="100"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].Columns[StatusName]"
+                      name="StatusName"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Id]"
+                      dataType="guid"
+                      name="Id" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UserId]"
+                      dataType="guid"
+                      name="UserId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OrganizationUnitId]"
+                      dataType="guid"
+                      name="OrganizationUnitId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DateRequestedUtc]"
+                      dataType="dbTimeStamp"
+                      name="DateRequestedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Package]"
+                      dataType="i2"
+                      name="Package" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DateResponseReceivedUtc]"
+                      dataType="dbTimeStamp"
+                      name="DateResponseReceivedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SentBy]"
+                      dataType="guid"
+                      name="SentBy" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[RequestAcknowledgementUTC]"
+                      dataType="dbTimeStamp"
+                      name="RequestAcknowledgementUTC" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SummaryStatus]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="SummaryStatus" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PackageId]"
+                      dataType="guid"
+                      name="PackageId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ProviderOrderId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="ProviderOrderId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BackgroundCheckConsentId]"
+                      dataType="guid"
+                      name="BackgroundCheckConsentId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AcknowledgesCreditStatement]"
+                      dataType="bool"
+                      name="AcknowledgesCreditStatement" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ParentalConsentRequired]"
+                      dataType="bool"
+                      name="ParentalConsentRequired" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ParentalConsentDateUploadedUtc]"
+                      dataType="dbTimeStamp"
+                      name="ParentalConsentDateUploadedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[RequestsCopyOfReport]"
+                      dataType="bool"
+                      name="RequestsCopyOfReport" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ElectronicSignatureId]"
+                      dataType="guid"
+                      name="ElectronicSignatureId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[InternalName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="InternalName" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ProviderPackageId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="ProviderPackageId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ProviderId]"
+                      dataType="guid"
+                      name="ProviderId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ConsentDate]"
+                      dataType="dbTimeStamp"
+                      name="ConsentDate" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ConsentStatus]"
+                      dataType="i4"
+                      name="ConsentStatus" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ESignatureId]"
+                      dataType="guid"
+                      name="ESignatureId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FirstName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="FirstName" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LastName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="LastName" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SigningPIN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="SigningPIN" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[DateSignedUtc]"
+                      dataType="dbTimeStamp"
+                      name="DateSignedUtc" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SignedById]"
+                      dataType="guid"
+                      name="SignedById" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UniqueUsername]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="UniqueUsername" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[StatusName]"
+                      dataType="wstr"
+                      length="100"
+                      name="StatusName" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Id]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Id]"
+                      name="Id" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UserId]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UserId]"
+                      name="UserId" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OrganizationUnitId]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OrganizationUnitId]"
+                      name="OrganizationUnitId" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DateRequestedUtc]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DateRequestedUtc]"
+                      name="DateRequestedUtc" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Package]"
+                      dataType="i2"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Package]"
+                      name="Package" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DateResponseReceivedUtc]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DateResponseReceivedUtc]"
+                      name="DateResponseReceivedUtc" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SentBy]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SentBy]"
+                      name="SentBy" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[RequestAcknowledgementUTC]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[RequestAcknowledgementUTC]"
+                      name="RequestAcknowledgementUTC" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SummaryStatus]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SummaryStatus]"
+                      name="SummaryStatus" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PackageId]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PackageId]"
+                      name="PackageId" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ProviderOrderId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ProviderOrderId]"
+                      name="ProviderOrderId" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BackgroundCheckConsentId]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BackgroundCheckConsentId]"
+                      name="BackgroundCheckConsentId" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AcknowledgesCreditStatement]"
+                      dataType="bool"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AcknowledgesCreditStatement]"
+                      name="AcknowledgesCreditStatement" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ParentalConsentRequired]"
+                      dataType="bool"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ParentalConsentRequired]"
+                      name="ParentalConsentRequired" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ParentalConsentDateUploadedUtc]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ParentalConsentDateUploadedUtc]"
+                      name="ParentalConsentDateUploadedUtc" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[RequestsCopyOfReport]"
+                      dataType="bool"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[RequestsCopyOfReport]"
+                      name="RequestsCopyOfReport" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ElectronicSignatureId]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ElectronicSignatureId]"
+                      name="ElectronicSignatureId" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[InternalName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[InternalName]"
+                      name="InternalName" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ProviderPackageId]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ProviderPackageId]"
+                      name="ProviderPackageId" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ProviderId]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ProviderId]"
+                      name="ProviderId" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ConsentDate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ConsentDate]"
+                      name="ConsentDate" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ConsentStatus]"
+                      dataType="i4"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ConsentStatus]"
+                      name="ConsentStatus" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ESignatureId]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ESignatureId]"
+                      name="ESignatureId" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FirstName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FirstName]"
+                      name="FirstName" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LastName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LastName]"
+                      name="LastName" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SigningPIN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SigningPIN]"
+                      name="SigningPIN" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DateSignedUtc]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[DateSignedUtc]"
+                      name="DateSignedUtc" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SignedById]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SignedById]"
+                      name="SignedById" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UniqueUsername]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UniqueUsername]"
+                      name="UniqueUsername" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      name="Name" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[StatusName]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[StatusName]"
+                      name="StatusName" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Extract from tp2 and load fact_BackgroundChecked.Paths[OLE DB Source Output]"
+              endId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Re-Create Index"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{44DD4442-96AA-4B23-9407-63F6672F78A7}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Re-Create Index"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7300FA5D-473D-4651-9845-21C659646E2B}"
+          SQLTask:SqlStatementSource="exec [ETLDW].[CreateIndex] 'dbo', 'fact_BackgroundChecked',0" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate fact_BackgroundChecked tbl"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{50E068A7-ABDF-4A2D-BC3A-48DBA377D17D}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate fact_BackgroundChecked tbl"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7300FA5D-473D-4651-9845-21C659646E2B}"
+          SQLTask:SqlStatementSource="truncate table fact_BackgroundChecked" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update DW_LoadRunTime Table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{1F7F1CC5-9E31-49A2-AE36-F7B85B0E89ED}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update DW_LoadRunTime Table"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7300FA5D-473D-4651-9845-21C659646E2B}"
+          SQLTask:SqlStatementSource="exec dbo.DW_SuccessLoadTime 'fact_ApplicantSource', 'fact_ApplicantSource'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{EE3D26BA-E1BA-4B48-A7D1-355CD0A0A07B}"
+      DTS:From="Package\Drop Index"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Truncate fact_BackgroundChecked tbl" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{E947E10D-C0A5-46E0-AC92-8E93B194C8BA}"
+      DTS:From="Package\Extract from tp2 and load fact_BackgroundChecked"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Re-Create Index" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{B0999AAD-26D7-435B-8691-FC6DA959A5E1}"
+      DTS:From="Package\Re-Create Index"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Update DW_LoadRunTime Table" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{44598E10-F75F-4F54-A3C0-95D8FF1E9CBD}"
+      DTS:From="Package\Truncate fact_BackgroundChecked tbl"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Extract from tp2 and load fact_BackgroundChecked" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="133,42"
+          Id="Package\Drop Index"
+          TopLeft="67,36" />
+        <NodeLayout
+          Size="330,42"
+          Id="Package\Extract from tp2 and load fact_BackgroundChecked"
+          TopLeft="19,310" />
+        <NodeLayout
+          Size="160,42"
+          Id="Package\Re-Create Index"
+          TopLeft="429,303" />
+        <NodeLayout
+          Size="197,42"
+          Id="Package\Truncate fact_BackgroundChecked tbl"
+          TopLeft="35,122" />
+        <NodeLayout
+          Size="209,42"
+          Id="Package\Update DW_LoadRunTime Table"
+          TopLeft="676,297" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="133.5,78">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44"
+              Start="0,0"
+              End="0,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="349,327.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="80,0"
+              Start="0,0"
+              End="72.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="72.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="589,321">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="87,0"
+              Start="0,0"
+              End="79.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="79.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="131.916666666667,164">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,146"
+              Start="0,0"
+              End="0,138.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,138.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Extract from tp2 and load fact_BackgroundChecked">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination"
+          TopLeft="400,121" />
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source"
+          TopLeft="100,127" />
+        <EdgeLayout
+          Id="Package\Extract from tp2 and load fact_BackgroundChecked.Paths[OLE DB Source Output]"
+          TopLeft="257,145">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="143,0"
+              Start="0,0"
+              End="135.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="135.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Extract from tp2 and load fact_BackgroundChecked\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,710 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/8/2019 5:47:42 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="IP-0A64076F"
+  DTS:CreatorName="IP-0A64076F\aagarwala"
+  DTS:DTSID="{E4613631-1B6C-4919-BD02-5115182BC2C9}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1300.375"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="fact_ApplicantSource"
+  DTS:PackageType="5"
+  DTS:VersionBuild="9"
+  DTS:VersionGUID="{C723DB9F-2D82-4470-B5A0-755E605B2E8D}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Drop Index"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{9A082305-C0E7-4C7D-9126-4C58917240EC}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Drop Index"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7300FA5D-473D-4651-9845-21C659646E2B}"
+          SQLTask:SqlStatementSource="exec [dbo].[spDropIndex] 'dbo','fact_ApplicantSource',0" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Extract from tp2 and load fact_ApplicantSource"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{0ebe9ebd-a798-4367-b75a-502487425013}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Extract from tp2 and load fact_ApplicantSource"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[fact_ApplicantSource]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">true</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">ROWS_PER_BATCH = 50000</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{7300FA5D-473D-4651-9845-21C659646E2B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[localhost.pmwarehouse]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[BusinessId]"
+                      cachedDataType="guid"
+                      cachedName="BusinessId"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BusinessId]"
+                      lineageId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].Columns[BusinessId]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ApplicantSourceId]"
+                      cachedDataType="guid"
+                      cachedName="ApplicantSourceId"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ApplicantSourceId]"
+                      lineageId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].Columns[ApplicantSourceId]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ApplicantSourceTrackingTag]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ApplicantSourceTrackingTag"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ApplicantSourceTrackingTag]"
+                      lineageId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].Columns[ApplicantSourceTrackingTag]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ApplicantSourceName]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ApplicantSourceName"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ApplicantSourceName]"
+                      lineageId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].Columns[ApplicantSourceName]" />
+                    <inputColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ApplicantSourceIsActive]"
+                      cachedDataType="bool"
+                      cachedName="ApplicantSourceIsActive"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ApplicantSourceIsActive]"
+                      lineageId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].Columns[ApplicantSourceIsActive]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BusinessId]"
+                      dataType="guid"
+                      name="BusinessId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ApplicantSourceId]"
+                      dataType="guid"
+                      name="ApplicantSourceId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ApplicantSourceTrackingTag]"
+                      dataType="wstr"
+                      length="255"
+                      name="ApplicantSourceTrackingTag" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ApplicantSourceName]"
+                      dataType="wstr"
+                      length="255"
+                      name="ApplicantSourceName" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ApplicantSourceIsActive]"
+                      dataType="bool"
+                      name="ApplicantSourceIsActive" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">exec [dbo].[fact_ApplicantSource_ETL]</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="{55F646B8-CA15-4B9C-99B9-B7417A71F763}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[localhost.Employer]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].Columns[BusinessId]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BusinessId]"
+                      lineageId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].Columns[BusinessId]"
+                      name="BusinessId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].Columns[ApplicantSourceId]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ApplicantSourceId]"
+                      lineageId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].Columns[ApplicantSourceId]"
+                      name="ApplicantSourceId"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].Columns[ApplicantSourceTrackingTag]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ApplicantSourceTrackingTag]"
+                      length="255"
+                      lineageId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].Columns[ApplicantSourceTrackingTag]"
+                      name="ApplicantSourceTrackingTag"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].Columns[ApplicantSourceName]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ApplicantSourceName]"
+                      length="255"
+                      lineageId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].Columns[ApplicantSourceName]"
+                      name="ApplicantSourceName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].Columns[ApplicantSourceIsActive]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ApplicantSourceIsActive]"
+                      lineageId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].Columns[ApplicantSourceIsActive]"
+                      name="ApplicantSourceIsActive"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BusinessId]"
+                      dataType="guid"
+                      name="BusinessId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ApplicantSourceId]"
+                      dataType="guid"
+                      name="ApplicantSourceId" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ApplicantSourceTrackingTag]"
+                      dataType="wstr"
+                      length="255"
+                      name="ApplicantSourceTrackingTag" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ApplicantSourceName]"
+                      dataType="wstr"
+                      length="255"
+                      name="ApplicantSourceName" />
+                    <externalMetadataColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ApplicantSourceIsActive]"
+                      dataType="bool"
+                      name="ApplicantSourceIsActive" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ApplicantSourceId]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ApplicantSourceId]"
+                      name="ApplicantSourceId" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BusinessId]"
+                      dataType="guid"
+                      lineageId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BusinessId]"
+                      name="BusinessId" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ApplicantSourceTrackingTag]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ApplicantSourceTrackingTag]"
+                      name="ApplicantSourceTrackingTag" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ApplicantSourceName]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ApplicantSourceName]"
+                      name="ApplicantSourceName" />
+                    <outputColumn
+                      refId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ApplicantSourceIsActive]"
+                      dataType="bool"
+                      lineageId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ApplicantSourceIsActive]"
+                      name="ApplicantSourceIsActive" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Extract from tp2 and load fact_ApplicantSource.Paths[OLE DB Source Output]"
+              endId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Re-Create Index"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{D3F3224F-C15E-4814-8C8B-CF05E6E1CFD2}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Re-Create Index"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7300FA5D-473D-4651-9845-21C659646E2B}"
+          SQLTask:SqlStatementSource="exec [dbo].[spCreateIndex] 'dbo','fact_ApplicantSource',0" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate fact_ApplicantSource tbl"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{9b418e46-ffc0-4125-bc65-8fce5031ca5b}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate fact_ApplicantSource tbl"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7300FA5D-473D-4651-9845-21C659646E2B}"
+          SQLTask:SqlStatementSource="truncate table fact_ApplicantSource" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update DW_LoadRunTime Table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{709ae66c-45ea-4eac-a4f6-38f3a6246fff}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update DW_LoadRunTime Table"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7300FA5D-473D-4651-9845-21C659646E2B}"
+          SQLTask:SqlStatementSource="exec dbo.DW_SuccessLoadTime 'fact_BackgroundChecked', 'fact_BackgroundChecked'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{8DFCDF8E-8F20-43C2-87D0-F4A90E16EB4F}"
+      DTS:From="Package\Drop Index"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Truncate fact_ApplicantSource tbl" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{96329D56-B51F-45F6-801A-A1C97302FE4B}"
+      DTS:From="Package\Extract from tp2 and load fact_ApplicantSource"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Re-Create Index" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{4A913BD9-759E-4DA8-852E-E837E44FDACC}"
+      DTS:From="Package\Re-Create Index"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Update DW_LoadRunTime Table" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{beb25ca6-04f4-4fd8-90a4-23ba825edeb5}"
+      DTS:From="Package\Truncate fact_ApplicantSource tbl"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Extract from tp2 and load fact_ApplicantSource" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="133,42"
+          Id="Package\Drop Index"
+          TopLeft="62,64" />
+        <NodeLayout
+          Size="308,42"
+          Id="Package\Extract from tp2 and load fact_ApplicantSource"
+          TopLeft="85,310" />
+        <NodeLayout
+          Size="160,42"
+          Id="Package\Re-Create Index"
+          TopLeft="431,137" />
+        <NodeLayout
+          Size="244,42"
+          Id="Package\Truncate fact_ApplicantSource tbl"
+          TopLeft="141,126" />
+        <NodeLayout
+          Size="209,42"
+          Id="Package\Update DW_LoadRunTime Table"
+          TopLeft="595,305" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="195,85">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="79,41"
+              Start="0,0"
+              End="79,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="75,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="75,0"
+                    Point2="79,0"
+                    Point3="79,4" />
+                  <mssgle:LineSegment
+                    End="79,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="289,310">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="222,-131"
+              Start="0,0"
+              End="222,-123.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-48.8062015503876" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-48.8062015503876"
+                    Point2="0,-52.8062015503876"
+                    Point3="4,-52.8062015503876" />
+                  <mssgle:LineSegment
+                    End="218,-52.8062015503876" />
+                  <mssgle:CubicBezierSegment
+                    Point1="218,-52.8062015503876"
+                    Point2="222,-52.8062015503876"
+                    Point3="222,-56.8062015503876" />
+                  <mssgle:LineSegment
+                    End="222,-123.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="536.333333333333,179">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="163.166666666667,126"
+              Start="0,0"
+              End="163.166666666667,118.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,47.1485148514851" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,47.1485148514851"
+                    Point2="0,51.1485148514851"
+                    Point3="4,51.1485148514851" />
+                  <mssgle:LineSegment
+                    End="159.166666666667,51.1485148514851" />
+                  <mssgle:CubicBezierSegment
+                    Point1="159.166666666667,51.1485148514851"
+                    Point2="163.166666666667,51.1485148514851"
+                    Point3="163.166666666667,55.1485148514851" />
+                  <mssgle:LineSegment
+                    End="163.166666666667,118.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="274,168">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-85,142"
+              Start="0,0"
+              End="-85,134.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,80.7596899224806" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,80.7596899224806"
+                    Point2="0,84.7596899224806"
+                    Point3="-4,84.7596899224806" />
+                  <mssgle:LineSegment
+                    End="-81,84.7596899224806" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-81,84.7596899224806"
+                    Point2="-85,84.7596899224806"
+                    Point3="-85,88.7596899224806" />
+                  <mssgle:LineSegment
+                    End="-85,134.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Extract from tp2 and load fact_ApplicantSource">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination"
+          TopLeft="400,121" />
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source"
+          TopLeft="100,127" />
+        <EdgeLayout
+          Id="Package\Extract from tp2 and load fact_ApplicantSource.Paths[OLE DB Source Output]"
+          TopLeft="257,145">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="143,0"
+              Start="0,0"
+              End="135.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="135.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Extract from tp2 and load fact_ApplicantSource\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
