@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="BusinessUnitGroup_Hierarchy_Bridge"
   DTS:PackageType="5"
-  DTS:VersionBuild="41"
-  DTS:VersionGUID="{B4D76A0E-806C-42BC-BC95-6C237885305C}">
+  DTS:VersionBuild="42"
+  DTS:VersionGUID="{2CA64DE9-28D7-4C5A-BE08-007C45CCE9C3}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
@@ -26,7 +26,7 @@
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Drop Index"
-      DTS:ThreadHint="2">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -1707,7 +1707,7 @@ ORDER BY ParentBusinessUnitGroupId</property>
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Load dim BusinessUnitGroup"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="2">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -2137,7 +2137,7 @@ FROM ETLDW.BusinessUnitGroup_stg</property>
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Execute SQL Task"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -2153,7 +2153,7 @@ FROM ETLDW.BusinessUnitGroup_stg</property>
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Load BusinessUnitGroup Hierarchy Bridge stg"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -2169,7 +2169,7 @@ FROM ETLDW.BusinessUnitGroup_stg</property>
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Load BusinessUnitGroup Hierarchy Bridge stg 1"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -2205,7 +2205,7 @@ FROM ETLDW.BusinessUnitGroup_stg</property>
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Truncate BusinessUnitGroup_Hierarchy_Bridge_stg"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="2">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -2221,7 +2221,7 @@ FROM ETLDW.BusinessUnitGroup_stg</property>
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Truncate BusinessUnitGroup_stg"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="2">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -2237,7 +2237,7 @@ FROM ETLDW.BusinessUnitGroup_stg</property>
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Truncate dim_BusinessUnitGroup"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="2">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -2376,7 +2376,7 @@ FROM ETLDW.BusinessUnitGroup_stg</property>
         <NodeLayout
           Size="222,42"
           Id="Package\Load dim BusinessUnitGroup"
-          TopLeft="393,104" />
+          TopLeft="409,104" />
         <NodeLayout
           Size="225,42"
           Id="Package\Load dim_BusinessUnitGroup"
@@ -2494,14 +2494,14 @@ FROM ETLDW.BusinessUnitGroup_stg</property>
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="106,0"
+              EndConnector="122,0"
               Start="0,0"
-              End="98.5,0">
+              End="114.5,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="98.5,0" />
+                    End="114.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2698,13 +2698,13 @@ FROM ETLDW.BusinessUnitGroup_stg</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 7]"
-          TopLeft="504,146">
+          TopLeft="520,146">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-311,53"
+              EndConnector="-327,53"
               Start="0,0"
-              End="-311,45.5">
+              End="-327,45.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -2715,13 +2715,13 @@ FROM ETLDW.BusinessUnitGroup_stg</property>
                     Point2="0,26.5"
                     Point3="-4,26.5" />
                   <mssgle:LineSegment
-                    End="-307,26.5" />
+                    End="-323,26.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="-307,26.5"
-                    Point2="-311,26.5"
-                    Point3="-311,30.5" />
+                    Point1="-323,26.5"
+                    Point2="-327,26.5"
+                    Point3="-327,30.5" />
                   <mssgle:LineSegment
-                    End="-311,45.5" />
+                    End="-327,45.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
